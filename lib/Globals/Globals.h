@@ -30,4 +30,22 @@ extern int JUMPER_BLUETOOTH;
 extern int RX_TP11;
 extern int TX_TP11;
 
+/*Hopper*/
+extern int pinHopper;
+extern int relayHopper;
+extern unsigned long LASTIMPULSEHOPPER;
+extern int PULSESHOPPER;
+extern bool hopperCoin;
+extern int timeLimitPulsesHopper;
+extern int numCoinsHopper;
+extern int timeWaitHopper;
+
+/*Coin Acceptor*/
+extern int pinCoinAcceptor;
+extern unsigned long LASTIMPULSE;
+extern int PULSES;
+extern bool acceptCoin;
+extern const int timeLimitPulsesCoin;
+extern const int timeDelayPulsesCoin;
+
 #endif

@@ -3,6 +3,7 @@
 #include "Write.h"
 #include "Status.h"
 #include "TP11.h"
+#include "Hopper.h"
 
 void setupReset()
 {
@@ -13,6 +14,7 @@ void Reset()
 {
     restartStatus();
     restartTP11();
+    restartHopper();
     delay(300);
 }
 

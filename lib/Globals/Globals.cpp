@@ -27,3 +27,21 @@ int JUMPER_BLUETOOTH = 15;
 /*TP11*/
 int RX_TP11 = 23;
 int TX_TP11 = 22;
+
+/*Hopper*/
+int pinHopper = 21;
+int relayHopper = 16;
+unsigned long LASTIMPULSEHOPPER = 0;
+int PULSESHOPPER = 0;
+bool hopperCoin = false;
+int timeLimitPulsesHopper = 150;
+int numCoinsHopper = 0;
+int timeWaitHopper = 30000;
+
+/*Coin Acceptor*/
+int pinCoinAcceptor = 19;
+unsigned long LASTIMPULSE = 0;
+int PULSES = 0;
+bool acceptCoin = false;
+const int timeLimitPulsesCoin = 500;
+const int timeDelayPulsesCoin = 100;
