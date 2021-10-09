@@ -7,6 +7,7 @@
 #include "Bluetooth.h"
 #include "TP11.h"
 #include "Hopper.h"
+#include "CoinAcceptor.h"
 
 void setup()
 {
@@ -14,9 +15,11 @@ void setup()
     setupReset();
     setupTP11();
     setupHopper();
+    setupCoinAcceptor();
     setupBluetooth();
     restartStatus();
     restartHopper();
+    restartCoinAcceptor();
     LAST_STATUS = millis();
     write(0x0A, 0x0A);
 }
