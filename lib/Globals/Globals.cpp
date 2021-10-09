@@ -23,3 +23,7 @@ const int timeReset = 5000;
 std::string nameBluetooth = "ATM Servicios Multimedia";
 uint32_t pinBluetooth = 999999;
 int JUMPER_BLUETOOTH = 15;
+
+/*TP11*/
+int RX_TP11 = 23;
+int TX_TP11 = 22;

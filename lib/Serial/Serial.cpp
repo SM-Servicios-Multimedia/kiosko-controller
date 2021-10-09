@@ -5,6 +5,7 @@
 #include "Status.h"
 #include "Reset.h"
 #include "Bluetooth.h"
+#include "TP11.h"
 
 void SerialRead()
 {
@@ -40,6 +41,7 @@ void SerialRead()
     {
         readSerialStatus();
         serialReset();
+        readSerialTP11();
     }
 
     if (byteCommandBLE != 0x00 && byteActionBLE != 0x00)
@@ -48,10 +50,12 @@ void SerialRead()
         byteAction = byteActionBLE;
         readSerialStatus();
         serialReset();
+        readSerialTP11();
     }
 
     loopStatus();
     loopReset();
+    readTP11();
     loopReadBluetooth();
 
     if (byteCommandBLE != 0x00 && byteActionBLE != 0x00)

@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include "Write.h"
 #include "Status.h"
+#include "TP11.h"
 
 void setupReset()
 {
@@ -11,6 +12,7 @@ void setupReset()
 void Reset()
 {
     restartStatus();
+    restartTP11();
     delay(300);
 }
 
