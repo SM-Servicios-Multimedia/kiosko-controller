@@ -56,5 +56,6 @@ void readSerialTP11()
 void restartTP11()
 {
     SerialTP11.write(0x30);
+    delay(150);
     reloadTP11();
 }

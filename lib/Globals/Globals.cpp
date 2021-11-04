@@ -15,22 +15,33 @@ bool CHECK_STATUS = true;
 bool debug = false;
 
 /*Reset*/
-int pin_reset = 5;
+int pin_reset = 13;
 unsigned long LASTRESET = 0;
 const int timeReset = 5000;
+
+/*Admin*/
+int pin_admin = 12;
+unsigned long LASTADMIN = 0;
+const int timeAdmin = 5000;
 
 /*BLUETOOTH*/
 std::string nameBluetooth = "ATM Servicios Multimedia";
 uint32_t pinBluetooth = 999999;
 int JUMPER_BLUETOOTH = 15;
+bool DEV_JUMPER_BLUETOOTH = true;
 
 /*TP11*/
-int RX_TP11 = 23;
-int TX_TP11 = 22;
+int RX_TP11 = 27;
+int TX_TP11 = 14;
+
+/*XC100*/
+int RX_XC100 = 25;
+int TX_XC100 = 26;
+bool autoDispenser = false;
 
 /*Hopper*/
-int pinHopper = 21;
-int relayHopper = 16;
+int pinHopper = 23;
+int relayHopper = 22;
 unsigned long LASTIMPULSEHOPPER = 0;
 int PULSESHOPPER = 0;
 bool hopperCoin = false;
@@ -39,7 +50,7 @@ int numCoinsHopper = 0;
 int timeWaitHopper = 30000;
 
 /*Coin Acceptor*/
-int pinCoinAcceptor = 19;
+int pinCoinAcceptor = 21;
 unsigned long LASTIMPULSE = 0;
 int PULSES = 0;
 bool acceptCoin = false;

@@ -1,14 +1,16 @@
 #include <Arduino.h>
+#include "Reset.h"
 #include "Globals.h"
 #include "Write.h"
 #include "Status.h"
 #include "TP11.h"
 #include "Hopper.h"
 #include "CoinAcceptor.h"
+#include "XC100.h"
 
 void setupReset()
 {
-    pinMode(pin_reset, INPUT);
+    pinMode(pin_reset, INPUT_PULLUP);
 }
 
 void Reset()
@@ -17,6 +19,7 @@ void Reset()
     restartTP11();
     restartHopper();
     restartCoinAcceptor();
+    restartXC100();
     delay(300);
 }
 

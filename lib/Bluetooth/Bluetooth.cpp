@@ -112,20 +112,32 @@ void setupBluetooth()
 
 void loopReadBluetooth()
 {
-    if (digitalRead(JUMPER_BLUETOOTH) == LOW && statusSetup == false)
+    if (DEV_JUMPER_BLUETOOTH == false)
     {
-        initBluetooth();
-        delay(3000);
+        if (digitalRead(JUMPER_BLUETOOTH) == LOW && statusSetup == false)
+        {
+            initBluetooth();
+            delay(3000);
+        }
+        if (digitalRead(JUMPER_BLUETOOTH) == LOW)
+        {
+            BLE_read();
+        }
     }
-    if (digitalRead(JUMPER_BLUETOOTH) == LOW)
+    else
     {
+        if (statusSetup == false)
+        {
+            initBluetooth();
+            delay(3000);
+        }
         BLE_read();
     }
 }
 
 void writeBluetooth(byte _device, byte _command)
 {
-    if (deviceConnected == true && digitalRead(JUMPER_BLUETOOTH) == LOW)
+    if (deviceConnected == true && (digitalRead(JUMPER_BLUETOOTH) == LOW || DEV_JUMPER_BLUETOOTH == true))
     {
         byte msg[2];
         msg[0] = _device;

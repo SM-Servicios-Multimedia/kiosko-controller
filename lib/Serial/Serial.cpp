@@ -4,9 +4,11 @@
 #include "Globals.h"
 #include "Status.h"
 #include "Reset.h"
+#include "Admin.h"
 #include "Bluetooth.h"
 #include "TP11.h"
 #include "Hopper.h"
+#include "XC100.h"
 #include "CoinAcceptor.h"
 
 void SerialRead()
@@ -43,9 +45,11 @@ void SerialRead()
     {
         readSerialStatus();
         serialReset();
+        serialAdmin();
         readSerialTP11();
         readSerialHopper();
         loopSerialCoinAcceptor();
+        readSerialXC100();
     }
 
     if (byteCommandBLE != 0x00 && byteActionBLE != 0x00)
@@ -54,14 +58,18 @@ void SerialRead()
         byteAction = byteActionBLE;
         readSerialStatus();
         serialReset();
+        serialAdmin();
         readSerialTP11();
         readSerialHopper();
         loopSerialCoinAcceptor();
+        readSerialXC100();
     }
 
     loopStatus();
     loopReset();
+    loopAdmin();
     readTP11();
+    readXC100();
     loopHopper();
     loopCoinAcceptor();
     loopReadBluetooth();
