@@ -5,6 +5,7 @@
 #include "TP11.h"
 #include "Mca1.h"
 #include "XC100.h"
+#include "TGP58.h"
 #include "Close.h"
 #include "CoinAcceptor.h"
 #include "Hopper.h"
@@ -49,9 +50,11 @@ void StartPrinterTGP58()
     endMCA1();
     endXC100();
     endTGP58();
+    finishCoinAcceptor();
+    finishHopper();
 
     // Open TGP58
-    // openTGP58();
+    openTGP58();
 
     write(0x1A, 0xC1);
 }
@@ -64,6 +67,7 @@ void StopDevices()
     endTGP58();
     finishCoinAcceptor();
     finishHopper();
+    openPrinter = false;
 
     write(0x1A, 0x99);
 }

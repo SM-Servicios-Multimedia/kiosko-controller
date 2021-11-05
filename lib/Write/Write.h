@@ -5,5 +5,6 @@
 #include "Globals.h"
 
 void write(byte _device, byte _command);
+void write(byte _command);
 
 #endif

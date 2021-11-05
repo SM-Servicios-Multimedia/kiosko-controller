@@ -24,6 +24,7 @@ void bleInit();
 void setupBluetooth();
 void loopReadBluetooth();
 void writeBluetooth(byte _device, byte _command);
+void writeBluetooth(byte _command);
 void BLE_read();
 void initBluetooth();
 

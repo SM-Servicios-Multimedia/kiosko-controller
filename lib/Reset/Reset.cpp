@@ -8,6 +8,7 @@
 #include "CoinAcceptor.h"
 #include "XC100.h"
 #include "Mca1.h"
+#include "TGP58.h"
 #include "Close.h"
 
 void setupReset()
@@ -25,6 +26,7 @@ void Reset()
     closeTP11();
     closeXC100();
     closeMCA1();
+    closeTGP58();
 
     restartAllDevices();
 

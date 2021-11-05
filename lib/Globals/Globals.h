@@ -15,6 +15,7 @@ extern int countByte;
 extern unsigned long LAST_STATUS;
 extern bool CHECK_STATUS;
 extern bool debug;
+extern bool openPrinter;
 
 /*Reset*/
 extern int pin_reset;
@@ -66,6 +67,10 @@ extern const int timeDelayPulsesCoin;
 /*MCA1*/
 extern int RX_MCA1;
 extern int TX_MCA1;
+
+/*TGP58 Printer*/
+extern int RX_TGP58;
+extern int TX_TGP58;
 
 /*StatusDevices*/
 extern bool statusTP11;

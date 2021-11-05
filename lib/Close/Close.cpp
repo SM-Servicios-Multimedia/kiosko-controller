@@ -3,6 +3,7 @@
 #include "TP11.h"
 #include "XC100.h"
 #include "Mca1.h"
+#include "TGP58.h"
 #include "CoinAcceptor.h"
 #include "Hopper.h"
 
@@ -23,7 +24,7 @@ void endMCA1()
 
 void endTGP58()
 {
-    // closeTGP58();
+    closeTGP58();
 }
 
 void endCoinAcceptor()
@@ -44,6 +45,7 @@ void closeAllDevices()
     endTGP58();
     finishCoinAcceptor();
     finishHopper();
+    openPrinter = false;
 }
 
 void restartAllDevices()
@@ -62,6 +64,7 @@ void restartAllDevices()
     endXC100();
     delay(150);
 
+    openTGP58();
     endTGP58();
     delay(150);
 

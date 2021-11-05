@@ -13,6 +13,7 @@ int countByte = 0;
 unsigned long LAST_STATUS = millis();
 bool CHECK_STATUS = true;
 bool debug = false;
+bool openPrinter = false;
 
 /*Reset*/
 int pin_reset = 23;

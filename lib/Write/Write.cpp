@@ -16,3 +16,12 @@ void write(byte _device, byte _command)
     delay(10);
     writeBluetooth(_device, _command);
 }
+
+void write(byte _command)
+{
+    byte msg[1];
+    msg[0] = _command;
+    Serial.write(msg, 1);
+    delay(10);
+    writeBluetooth(_command);
+}

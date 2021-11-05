@@ -147,6 +147,17 @@ void writeBluetooth(byte _device, byte _command)
     }
 }
 
+void writeBluetooth(byte _command)
+{
+    if (deviceConnected == true && (digitalRead(JUMPER_BLUETOOTH) == LOW || DEV_JUMPER_BLUETOOTH == true))
+    {
+        byte msg[1];
+        msg[0] = _command;
+        pTxCharacteristic->setValue(msg, 1);
+        pTxCharacteristic->notify();
+    }
+}
+
 void BLE_read()
 {
     if (rx_received == true)
