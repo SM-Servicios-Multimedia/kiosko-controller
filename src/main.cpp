@@ -23,6 +23,7 @@ void setup()
     setupHopper();
     setupCoinAcceptor();
     setupBluetooth();
+    SetupLed();
 
     // Restart Configs
     restartStatus();
@@ -37,4 +38,5 @@ void setup()
 void loop()
 {
     SerialRead();
+    delay(50);
 }

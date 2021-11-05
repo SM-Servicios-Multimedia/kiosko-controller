@@ -4,5 +4,6 @@
 #include <Arduino.h>
 
 void SerialRead();
+void SetupLed();
 
 #endif

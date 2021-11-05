@@ -162,6 +162,7 @@ void BLE_read()
 {
     if (rx_received == true)
     {
+        digitalWrite(led, LOW);
         rx_received = false;
     }
 }

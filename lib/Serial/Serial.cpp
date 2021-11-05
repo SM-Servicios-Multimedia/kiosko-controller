@@ -14,11 +14,18 @@
 #include "TGP58.h"
 #include "Start.h"
 
+void SetupLed()
+{
+    pinMode(led, OUTPUT);
+    digitalWrite(led, HIGH);
+}
+
 void SerialRead()
 {
     byteCommand = 0x00;
     byteAction = 0x00;
     countByte = 0;
+    digitalWrite(led, HIGH);
 
     if (Serial.available() > 0)
     {
@@ -26,6 +33,7 @@ void SerialRead()
         {
             while (Serial.available())
             {
+                digitalWrite(led, LOW);
                 byte byteSerial = Serial.read();
 
                 if (countByte == 0)
@@ -49,6 +57,7 @@ void SerialRead()
         {
             while (Serial.available())
             {
+                digitalWrite(led, LOW);
                 byte byteSerial = Serial.read();
 
                 if (countByte == 0)

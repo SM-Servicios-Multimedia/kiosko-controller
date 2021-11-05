@@ -29,7 +29,7 @@ const int timeAdmin = 5000;
 std::string nameBluetooth = "ATM Servicios Multimedia";
 uint32_t pinBluetooth = 999999;
 int JUMPER_BLUETOOTH = 15;
-bool DEV_JUMPER_BLUETOOTH = true;
+bool DEV_JUMPER_BLUETOOTH = false;
 
 /*Ports Virtual Serials*/
 int rx[4] = {27, 26, 32, 35};
