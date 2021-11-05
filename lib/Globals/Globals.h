@@ -32,6 +32,10 @@ extern uint32_t pinBluetooth;
 extern int JUMPER_BLUETOOTH;
 extern bool DEV_JUMPER_BLUETOOTH;
 
+/*Ports Virtual Serials*/
+extern int rx[4];
+extern int tx[4];
+
 /*TP11*/
 extern int RX_TP11;
 extern int TX_TP11;
@@ -58,5 +62,15 @@ extern int PULSES;
 extern bool acceptCoin;
 extern const int timeLimitPulsesCoin;
 extern const int timeDelayPulsesCoin;
+
+/*MCA1*/
+extern int RX_MCA1;
+extern int TX_MCA1;
+
+/*StatusDevices*/
+extern bool statusTP11;
+extern bool statusXC100;
+extern bool statusMCA1;
+extern bool statusTGP58;
 
 #endif

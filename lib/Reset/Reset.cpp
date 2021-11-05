@@ -7,6 +7,8 @@
 #include "Hopper.h"
 #include "CoinAcceptor.h"
 #include "XC100.h"
+#include "Mca1.h"
+#include "Close.h"
 
 void setupReset()
 {
@@ -16,10 +18,16 @@ void setupReset()
 void Reset()
 {
     restartStatus();
-    restartTP11();
     restartHopper();
     restartCoinAcceptor();
-    restartXC100();
+
+    // VirtualSerials
+    closeTP11();
+    closeXC100();
+    closeMCA1();
+
+    restartAllDevices();
+
     delay(300);
 }
 

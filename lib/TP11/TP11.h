@@ -4,10 +4,11 @@
 #include <Arduino.h>
 #include "Globals.h"
 
-void setupTP11();
+void openTP11();
+void closeTP11();
 void readTP11();
 void readSerialTP11();
-void restartTP11();
-void reloadTP11();
+void enableTP11();
+void disableTP11();
 
 #endif

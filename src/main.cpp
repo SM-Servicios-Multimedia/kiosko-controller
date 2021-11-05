@@ -10,21 +10,26 @@
 #include "Hopper.h"
 #include "CoinAcceptor.h"
 #include "XC100.h"
+#include "Mca1.h"
+#include "Close.h"
 
 void setup()
 {
     Serial.begin(38400);
+
+    // Setups
     setupReset();
     setupAdmin();
-    setupTP11();
     setupHopper();
     setupCoinAcceptor();
-    setupXC100();
     setupBluetooth();
+
+    // Restart Configs
     restartStatus();
     restartHopper();
     restartCoinAcceptor();
-    restartXC100();
+    restartAllDevices();
+
     LAST_STATUS = millis();
     write(0x0A, 0x0A);
 }

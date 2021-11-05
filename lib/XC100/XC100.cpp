@@ -4,6 +4,7 @@
 #include "Write.h"
 #include "XC100.h"
 #include "Maths.h"
+#include "Close.h"
 
 SoftwareSerial SerialXC100;
 
@@ -77,30 +78,52 @@ uint8_t cs = calculateCS(0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
 
 void reloadXC100()
 {
-
-    statusDispensed = false;
-    clearDispensed = 1;
-    totalByteDispensed = 0x00;
-    errorDispensed = false;
-    countDispensed = 0;
-    totalToBeDispensed = 0;
-    countErrors = 0;
-    countAttempts = 0;
-    autoDispenser = false;
-    totalByteDispensedWithError = 0x00;
-    SerialXC100.write(clearErrorAndCount, 10);
-    SerialXC100.write(clearErrorRecord, 10);
+    if (statusXC100)
+    {
+        statusDispensed = false;
+        clearDispensed = 1;
+        totalByteDispensed = 0x00;
+        errorDispensed = false;
+        countDispensed = 0;
+        totalToBeDispensed = 0;
+        countErrors = 0;
+        countAttempts = 0;
+        autoDispenser = false;
+        totalByteDispensedWithError = 0x00;
+        SerialXC100.write(clearErrorAndCount, 10);
+        SerialXC100.write(clearErrorRecord, 10);
+    }
 }
 
-void setupXC100()
+void openXC100()
 {
-    SerialXC100.begin(9600, SWSERIAL_8N1, RX_XC100, TX_XC100, false, 256);
-    SerialXC100.flush();
+    if (!statusXC100)
+    {
+        endTGP58();
+        endTP11();
+        endMCA1();
+        SerialXC100.begin(9600, SWSERIAL_8N1, RX_XC100, TX_XC100, false, 256);
+        SerialXC100.flush();
+        statusXC100 = true;
+        reloadXC100();
+        write(0x2A, 0xAA);
+    }
+}
+
+void closeXC100()
+{
+    if (statusXC100)
+    {
+        reloadXC100();
+        statusXC100 = false;
+        SerialXC100.end();
+        write(0x2A, 0xBB);
+    }
 }
 
 void readXC100()
 {
-    if (SerialXC100.available() > 0)
+    if (statusXC100 && SerialXC100.available() > 0)
     {
 
         countResponse = 0;
@@ -298,97 +321,109 @@ void readXC100()
 
 void readSerialXC100()
 {
+
     if (byteCommand == 0x2A)
     {
-
-        if (byteAction == 0x20) // Clear Count (0x20) Tx : 02 30 30 49 30 30 30 31 6C 03 , Rx : 06
+        if (byteAction == 0xAA)
         {
-            SerialXC100.write(clearCount, 10);
+            openXC100();
         }
-        else if (byteAction == 0x21) // Clear Error (0x21) Tx : 02 30 30 49 30 30 30 32 6D 03 , Rx : 06
+        else if (byteAction == 0xBB)
         {
-            SerialXC100.write(clearError, 10);
+            closeXC100();
         }
-        else if (byteAction == 0x22) // Clear Error and Clear Count (0x22) Tx : 02 30 30 49 30 30 30 33 6E 03 , Rx : 06
+        else
         {
-            SerialXC100.write(clearErrorAndCount, 10);
-        }
-        else if (byteAction == 0x23) // Key Disable (0x23) Tx : 02 30 30 4B 31 30 31 30 6F 03 , Rx : 06
-        {
-            SerialXC100.write(keyDisable, 10);
-        }
-        else if (byteAction == 0x24) // Key Enable (0x24) Tx : 02 30 30 4B 30 30 30 30 6D 03 , Rx : 06
-        {
-            SerialXC100.write(keyEnable, 10);
-        }
-        else if (byteAction == 0x25) // Status (0x25) Tx : 02 30 30 53 30 30 30 30 75 03 , Rx : 02 30 30 73 72 30 30 30 D7 03
-        {
-            SerialXC100.write(Status, 10);
-        }
-        else if (byteAction == 0x26) // Error Record (0x26) Tx : 02 30 30 52 30 30 30 30 74 03
-        {
-            SerialXC100.write(errorRecord, 10);
-        }
-        else if (byteAction == 0x27) // Clear Error Record (0x27) Tx : 02 30 30 55 30 30 30 30 77 03 , Rx : 06
-        {
-            SerialXC100.write(clearErrorRecord, 10);
-        }
-        else if (byteAction == 0x28) // Total Count (0x28) Tx : 02 30 30 43 30 30 30 30 65 03 , Rx : 02 30 30 63 30 30 30 30 85 03
-        {
-            SerialXC100.write(totalCount, 10);
-        }
-        else if (byteAction == 0x29) // Password Enable (0x29) Tx : 02 30 30 37 31 30 30 30 5A 03 , Rx : 06
-        {
-            SerialXC100.write(passwordEnable, 10);
-        }
-        else if (byteAction == 0x30) // Password Disable (0x30) Tx : 02 30 30 37 30 30 30 30 59 03 , Rx : 06
-        {
-            SerialXC100.write(passwordDisable, 10);
-        }
-        else if (byteAction == 0x31) // Powerful Out Bill (0x31) Tx : 02 30 30 36 30 30 30 30 58 03 , Rx : 06
-        {
-            SerialXC100.write(powerfulOutBill, 10);
+            if (statusXC100)
+            {
+                if (byteAction == 0x20) // Clear Count (0x20) Tx : 02 30 30 49 30 30 30 31 6C 03 , Rx : 06
+                {
+                    SerialXC100.write(clearCount, 10);
+                }
+                else if (byteAction == 0x21) // Clear Error (0x21) Tx : 02 30 30 49 30 30 30 32 6D 03 , Rx : 06
+                {
+                    SerialXC100.write(clearError, 10);
+                }
+                else if (byteAction == 0x22) // Clear Error and Clear Count (0x22) Tx : 02 30 30 49 30 30 30 33 6E 03 , Rx : 06
+                {
+                    SerialXC100.write(clearErrorAndCount, 10);
+                }
+                else if (byteAction == 0x23) // Key Disable (0x23) Tx : 02 30 30 4B 31 30 31 30 6F 03 , Rx : 06
+                {
+                    SerialXC100.write(keyDisable, 10);
+                }
+                else if (byteAction == 0x24) // Key Enable (0x24) Tx : 02 30 30 4B 30 30 30 30 6D 03 , Rx : 06
+                {
+                    SerialXC100.write(keyEnable, 10);
+                }
+                else if (byteAction == 0x25) // Status (0x25) Tx : 02 30 30 53 30 30 30 30 75 03 , Rx : 02 30 30 73 72 30 30 30 D7 03
+                {
+                    SerialXC100.write(Status, 10);
+                }
+                else if (byteAction == 0x26) // Error Record (0x26) Tx : 02 30 30 52 30 30 30 30 74 03
+                {
+                    SerialXC100.write(errorRecord, 10);
+                }
+                else if (byteAction == 0x27) // Clear Error Record (0x27) Tx : 02 30 30 55 30 30 30 30 77 03 , Rx : 06
+                {
+                    SerialXC100.write(clearErrorRecord, 10);
+                }
+                else if (byteAction == 0x28) // Total Count (0x28) Tx : 02 30 30 43 30 30 30 30 65 03 , Rx : 02 30 30 63 30 30 30 30 85 03
+                {
+                    SerialXC100.write(totalCount, 10);
+                }
+                else if (byteAction == 0x29) // Password Enable (0x29) Tx : 02 30 30 37 31 30 30 30 5A 03 , Rx : 06
+                {
+                    SerialXC100.write(passwordEnable, 10);
+                }
+                else if (byteAction == 0x30) // Password Disable (0x30) Tx : 02 30 30 37 30 30 30 30 59 03 , Rx : 06
+                {
+                    SerialXC100.write(passwordDisable, 10);
+                }
+                else if (byteAction == 0x31) // Powerful Out Bill (0x31) Tx : 02 30 30 36 30 30 30 30 58 03 , Rx : 06
+                {
+                    SerialXC100.write(powerfulOutBill, 10);
+                }
+            }
         }
     }
     else if (byteCommand == 0x2B || byteCommand == 0x2C)
     {
-        if (byteCommand == 0x2B)
+        if (statusXC100)
         {
-            autoDispenser = false;
-        }
-        else if (byteCommand == 0x2C)
-        {
-            autoDispenser = true;
-        }
+            if (byteCommand == 0x2B)
+            {
+                autoDispenser = false;
+            }
+            else if (byteCommand == 0x2C)
+            {
+                autoDispenser = true;
+            }
 
-        byte *total = totalBills(byteAction);
+            byte *total = totalBills(byteAction);
 
-        if (total[0] != 0x30 || total[1] != 0x30 || total[2] != 0x30)
-        {
-            statusDispensed = true;
-            clearDispensed = 0;
-            totalByteDispensed = byteAction;
-            errorDispensed = false;
-            totalToBeDispensed = totalCoins(byteAction);
-            countErrors = 0;
-            countAttempts = 0;
-            totalByteDispensedWithError = byteAction;
+            if (total[0] != 0x30 || total[1] != 0x30 || total[2] != 0x30)
+            {
+                statusDispensed = true;
+                clearDispensed = 0;
+                totalByteDispensed = byteAction;
+                errorDispensed = false;
+                totalToBeDispensed = totalCoins(byteAction);
+                countErrors = 0;
+                countAttempts = 0;
+                totalByteDispensedWithError = byteAction;
 
-            cs = calculateCS(0x02, 0x30, 0x30, 0x42, 0x30, total[0], total[1], total[2]);
-            byte *commandDispensed = createPayload(0x02, 0x30, 0x30, 0x42, 0x30, total[0], total[1], total[2], cs, 0x03);
+                cs = calculateCS(0x02, 0x30, 0x30, 0x42, 0x30, total[0], total[1], total[2]);
+                byte *commandDispensed = createPayload(0x02, 0x30, 0x30, 0x42, 0x30, total[0], total[1], total[2], cs, 0x03);
 
-            SerialXC100.write(clearErrorAndCount, 10);
-            SerialXC100.write(clearErrorRecord, 10);
-            SerialXC100.write(commandDispensed, 10);
-        }
-        else
-        {
-            write(0x2B, 0x30);
+                SerialXC100.write(clearErrorAndCount, 10);
+                SerialXC100.write(clearErrorRecord, 10);
+                SerialXC100.write(commandDispensed, 10);
+            }
+            else
+            {
+                write(0x2B, 0x30);
+            }
         }
     }
-}
-
-void restartXC100()
-{
-    reloadXC100();
 }

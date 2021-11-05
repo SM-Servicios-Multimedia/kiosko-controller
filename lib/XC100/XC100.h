@@ -23,11 +23,11 @@ extern byte* passwordDisable;
 extern byte* powerfulOutBill;
 extern uint8_t checksum;
 
+void openXC100();
+void closeXC100();
 void reloadXC100();
-void setupXC100();
 void readXC100();
 void readSerialXC100();
-void restartXC100();
 uint8_t calculateCS();
 
 #endif

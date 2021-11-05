@@ -10,6 +10,8 @@
 #include "Hopper.h"
 #include "XC100.h"
 #include "CoinAcceptor.h"
+#include "Mca1.h"
+#include "Start.h"
 
 void SerialRead()
 {
@@ -46,10 +48,13 @@ void SerialRead()
         readSerialStatus();
         serialReset();
         serialAdmin();
-        readSerialTP11();
         readSerialHopper();
         loopSerialCoinAcceptor();
+
+        // Virtual Serials
+        readSerialTP11();
         readSerialXC100();
+        readSerialMCA1();
     }
 
     if (byteCommandBLE != 0x00 && byteActionBLE != 0x00)
@@ -59,20 +64,28 @@ void SerialRead()
         readSerialStatus();
         serialReset();
         serialAdmin();
-        readSerialTP11();
         readSerialHopper();
         loopSerialCoinAcceptor();
+
+        // Virtual Serials
+        readSerialTP11();
         readSerialXC100();
+        readSerialMCA1();
     }
 
     loopStatus();
     loopReset();
     loopAdmin();
-    readTP11();
-    readXC100();
     loopHopper();
     loopCoinAcceptor();
+
+    // Virtual Serials
+    readTP11();
+    readXC100();
+    readMCA1();
+
     loopReadBluetooth();
+    serialStart();
 
     if (byteCommandBLE != 0x00 && byteActionBLE != 0x00)
     {
